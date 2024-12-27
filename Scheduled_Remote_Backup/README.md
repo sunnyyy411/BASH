@@ -13,7 +13,7 @@ filename="backup`date +%d%m%Y%H%M%S`.tar"
 tar -cvf /home/kali/Documents/backup/${filename} /home/kali/Documents/Bash/
 scp /home/kali/Documents/backup/${filename} lubuntu@192.168.29.136:~/Documents/kali_backup
 ```
-![image](https://github.com/user-attachments/assets/8580b352-78bf-46a7-93b5-f7ed32a050b7)
+![image](https://github.com/user-attachments/assets/975cd1b4-1a69-40b1-b80d-0b88c958a8d3)
 
 
 ### 2. Configure SSH Key-Based Authentication
@@ -23,31 +23,35 @@ scp /home/kali/Documents/backup/${filename} lubuntu@192.168.29.136:~/Documents/k
    ssh-keygen
    ```
    (Press `Enter` to accept the default options.)
-   ![image](https://github.com/user-attachments/assets/36fa1d90-959b-4179-88f0-cec5560b6cd4)
-
+ ![image](https://github.com/user-attachments/assets/0664bc7e-fe53-4a6e-815f-4754960cec8f)
+  
 
 3. Verify the key pair is created:
    ```bash
-   ls -al ~/.ssh
+   ls -al 
    ```
-   ![image](https://github.com/user-attachments/assets/2d7c07c2-861a-467e-aa90-755c9e7682ac)
+ ![image](https://github.com/user-attachments/assets/c3050913-cbf1-452d-8943-325b1bbd8ae3)
+   you can see pair of keys
+   ![image](https://github.com/user-attachments/assets/55a95a96-142a-42ab-8b97-b848bbedcfac)
+
 
 
 4. Copy the public key to the remote machine:
    ```bash
-   ssh-copy-id -i ~/.ssh/id_rsa.pub lubuntu@192.168.29.136
+   ssh-copy-id -i id_ed25519.pub lubuntu@192.168.29.136
    ```
    (Enter the password for the remote machine when prompted.)
-![image](https://github.com/user-attachments/assets/23a372f8-400c-45e0-87f1-13927f69e385)
+  ![image](https://github.com/user-attachments/assets/7c589199-390f-437d-b338-fbd18e9001db)
 
 
 #### On the Remote Machine:
 1. Verify the `.ssh` directory exists and contains the copied key:
    ```bash
-   ls -al ~/.ssh
-   cat ~/.ssh/authorized_keys
+   ls -al
+   cd .ssh
+   cat authorized_keys
    ```
-   ![image](https://github.com/user-attachments/assets/8b09d54d-d687-4b2d-97cd-bd3da91c78d9)
+  ![image](https://github.com/user-attachments/assets/bf2d1e92-eba7-427f-a66a-6ee9ff9be41d)
 
 
 ### 3. Test the Script Manually
@@ -55,19 +59,20 @@ scp /home/kali/Documents/backup/${filename} lubuntu@192.168.29.136:~/Documents/k
    ```bash
    bash /Documents/Bash/backup.sh
    ```
-   ![image](https://github.com/user-attachments/assets/89ca6437-a0ae-4ea9-bfe7-2320d5ce09ac)
+![image](https://github.com/user-attachments/assets/109b95c4-7391-4869-bfd4-92fb9ef1d865)
 
 2. Verify the backup file is present on the remote server:
    ```bash
-   ls -al ~/Documents/kali_backup
+   ls /Documents/kali_backup
    ```
-   ![image](https://github.com/user-attachments/assets/2b7f748c-3767-4fcb-a1f9-4f03e59491e1)
+  ![image](https://github.com/user-attachments/assets/5ceacc15-653b-492d-829d-10e039d391a5)
+
 
 3. Check the contents of the backup file:
    ```bash
    tar -tf {backupfilename}
    ```
-   ![image](https://github.com/user-attachments/assets/8b40b4d5-46ba-4561-a2bc-0d7d54487398)
+![image](https://github.com/user-attachments/assets/3b2ad84d-ac3c-4545-b72f-21b5fc9b7f74)
 
 
 ### 4. Schedule the Backup Using Cron
@@ -80,14 +85,14 @@ scp /home/kali/Documents/backup/${filename} lubuntu@192.168.29.136:~/Documents/k
    ```
    */2 * * * * /home/kali/Documents/Bash/backup.sh
    ```
-   ![image](https://github.com/user-attachments/assets/ccdc7bc6-b2d2-403e-9375-c30d5209dc7d)
+![image](https://github.com/user-attachments/assets/ec4c25e2-8b60-46a2-a1a2-6f74a4933bbb)
 
 
 3. Save and exit the editor.
 
 ### 5. Verify Scheduled Execution
 After every 2 minutes, a new backup file will be uploaded to the remote server automatically. Check the remote directory for new backup files periodically.
-![image](https://github.com/user-attachments/assets/78d89d78-1a93-4672-983e-c5d6fd1cd453)
+![image](https://github.com/user-attachments/assets/9524b8b9-1acd-4f88-8d36-4b2e02067506)
 
 
 
